@@ -1,0 +1,5 @@
+wojtek_order:
+    resource: "@WojtekOrderBundle/Resources/config/routing/post.yml"
+    prefix:   /
+
+

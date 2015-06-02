@@ -1,0 +1,3 @@
+wojtek_order_homepage:
+    resource: "routing/post.yml"
+    prefix:   /

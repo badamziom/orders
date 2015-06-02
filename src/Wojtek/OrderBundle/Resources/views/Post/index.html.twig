@@ -1,0 +1,59 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Post list</h1>
+    {{ form(form) }}
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Login kupującego</th>
+                <th>Przedmiot</th>
+                <th>Czy zapłacił</th>
+                <th>Data płatności</th>
+                <th>Data zamówienia</th>
+                <th>Id zamówienia</th>
+                <th>Cena z wysyłką</th>
+                <th>Cena zamówienia</th>
+                <th>Zysk</th>
+                <th>Numer śledzenia</th>
+                <th>Inne informacje</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td>{{ entity.userLogin }}</td>
+                    <td>{{ entity.item }}</td>
+                    <td>{{ (entity.userPaid == 1)? 'tak' : 'nie' }}</td>
+                    <td>{% if entity.datePayment %}{{ entity.datePayment|date('d-m-Y') }}{% endif %}</td>
+                    <td>{% if entity.dateOrder %}{{ entity.dateOrder|date('d-m-Y') }}{% endif %}</td>
+                    <td>{{ entity.orderId }}</td>
+                    <td>{{ entity.priceShipping }}</td>
+                    <td>{{ entity.orderPrice }}</td>
+                    <td>{{ entity.priceShipping - entity.orderPrice }}</td>
+                    <td>{{ entity.trackingNumber }}</td>
+                    <td>{{ entity.otherData }}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('post_show', { 'id': entity.id }) }}">show</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('post_edit', { 'id': entity.id }) }}">edit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('post_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+{% endblock %}
