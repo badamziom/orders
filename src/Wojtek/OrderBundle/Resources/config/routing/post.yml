@@ -10,6 +10,14 @@ post_new:
     path:     /new
     defaults: { _controller: "WojtekOrderBundle:Post:new" }
 
+post_new_from_file:
+    path:     /new-from-file
+    defaults: { _controller: "WojtekOrderBundle:Post:newFromFile" }
+
+post_add_from_file:
+    path:     /add-from-file
+    defaults: { _controller: "WojtekOrderBundle:Post:addFromFile" }
+
 post_create:
     path:     /create
     defaults: { _controller: "WojtekOrderBundle:Post:create" }
@@ -28,3 +36,7 @@ post_delete:
     path:     /{id}/delete
     defaults: { _controller: "WojtekOrderBundle:Post:delete" }
     methods:  [POST, DELETE]
+
+post_update_payment_status:
+    path:     /{id}/update-payment-status
+    defaults: { _controller: "WojtekOrderBundle:Post:updatePaymentStatus" }

@@ -92,6 +92,13 @@ class Post {
     private $otherData;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="commission", type="decimal", scale=2)
+     */
+    private $commission;
+
+    /**
      * Get id
      *
      * @return integer
@@ -308,6 +315,27 @@ class Post {
      */
     public function getOtherData() {
         return $this->otherData;
+    }
+
+    /**
+     * Set commission
+     *
+     * @param string $commission
+     * @return Post
+     */
+    public function setCommission($commission) {
+        $this->commission = $commission;
+
+        return $this;
+    }
+
+    /**
+     * Get commission
+     *
+     * @return string
+     */
+    public function getCommission() {
+        return $this->commission;
     }
 
 }

@@ -32,6 +32,7 @@ class PostType extends AbstractType {
                 ->add('otherData', 'textarea', array(
                     'required' => false
                 ))
+                ->add('commission')
         ;
     }
 

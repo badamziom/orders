@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Wojtek\OrderBundle\Entity\Post;
 use Wojtek\OrderBundle\Form\PostType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Post controller.
@@ -120,6 +122,32 @@ class PostController extends Controller {
         ));
     }
 
+    public function newFromFileAction() {
+
+        $form = $this->createAddFromFileForm();
+
+        return $this->render('WojtekOrderBundle:Post:new_from_file.html.twig', array(
+                    'form' => $form->createView()
+        ));
+    }
+
+    public function addFromFileAction(Request $request) {
+
+        $form = $this->createAddFromFileForm();
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $crawler = new Crawler();
+            $array = file_get_contents($form['attachment']->getData());
+            var_dump($array);
+            die();
+            return $this->redirect($this->generateUrl('post_show', array('id' => $entity->getId())));
+        }
+
+        var_dump($file);
+        die();
+    }
+
     /**
      * Finds and displays a Post entity.
      *
@@ -202,7 +230,7 @@ class PostController extends Controller {
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('post_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('post'));
         }
 
         return $this->render('WojtekOrderBundle:Post:edit.html.twig', array(
@@ -210,6 +238,19 @@ class PostController extends Controller {
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
         ));
+    }
+
+    public function updatePaymentStatusAction($id) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('WojtekOrderBundle:Post')->find($id);
+
+        $entity->setUserPaid(TRUE);
+
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('post'));
     }
 
     /**
@@ -284,6 +325,16 @@ class PostController extends Controller {
                         ))
                         ->add('Szukaj', 'submit')
                         ->getForm();
+    }
+
+    public function createAddFromFileForm() {
+        return $this->createFormBuilder()
+                        ->setAction($this->generateUrl('post_add_from_file'))
+                        ->setMethod('POST')
+                        ->add('attachment', 'file')
+                        ->add('Dodaj', 'submit')
+                        ->getForm()
+        ;
     }
 
 }

@@ -14,6 +14,7 @@
                 <th>Id zamówienia</th>
                 <th>Cena z wysyłką</th>
                 <th>Cena zamówienia</th>
+                <th>Prowizja</th>
                 <th>Zysk</th>
                 <th>Numer śledzenia</th>
                 <th>Inne informacje</th>
@@ -31,11 +32,17 @@
                     <td>{{ entity.orderId }}</td>
                     <td>{{ entity.priceShipping }}</td>
                     <td>{{ entity.orderPrice }}</td>
-                    <td>{{ entity.priceShipping - entity.orderPrice }}</td>
+                    <td>{{ entity.commission }}</td>
+                    <td>{{ entity.priceShipping - (entity.orderPrice + entity.commission) }}</td>
                     <td>{{ entity.trackingNumber }}</td>
                     <td>{{ entity.otherData }}</td>
                     <td>
                         <ul>
+                            {% if entity.userPaid == 0 %}
+                                <li>
+                                    <a href="{{ path('post_update_payment_status', { 'id': entity.id }) }}">Zapłacił</a>
+                                </li>
+                            {% endif %}
                             <li>
                                 <a href="{{ path('post_show', { 'id': entity.id }) }}">show</a>
                             </li>
@@ -53,6 +60,11 @@
         <li>
             <a href="{{ path('post_new') }}">
                 Create a new entry
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('post_new_from_file') }}">
+                Create a new entry from file
             </a>
         </li>
     </ul>
