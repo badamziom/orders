@@ -8,6 +8,10 @@ use Wojtek\OrderBundle\Entity\Post;
 use Wojtek\OrderBundle\Form\PostType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 /**
  * Post controller.
@@ -44,6 +48,7 @@ class PostController extends Controller {
                     $data
             );
         }
+
 
         if (!isset($data['userLogin'])) {
             $data['userLogin'] = '';
@@ -133,12 +138,19 @@ class PostController extends Controller {
 
     public function addFromFileAction(Request $request) {
 
+
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new GetSetMethodNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+
         $form = $this->createAddFromFileForm();
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $crawler = new Crawler();
-            $array = file_get_contents($form['attachment']->getData());
+            $xml_content = file_get_contents($form['attachment']->getData());
+            $array = $serializer->decode($xml_content, 'xml');
             var_dump($array);
             die();
             return $this->redirect($this->generateUrl('post_show', array('id' => $entity->getId())));

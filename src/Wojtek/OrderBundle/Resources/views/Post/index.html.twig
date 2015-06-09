@@ -9,6 +9,7 @@
                 <th>Login kupującego</th>
                 <th>Przedmiot</th>
                 <th>Czy zapłacił</th>
+                <th>Rodzaj płatności</th>
                 <th>Data płatności</th>
                 <th>Data zamówienia</th>
                 <th>Id zamówienia</th>
@@ -27,6 +28,7 @@
                     <td>{{ entity.userLogin }}</td>
                     <td>{{ entity.item }}</td>
                     <td>{{ (entity.userPaid == 1)? 'tak' : 'nie' }}</td>
+                    <td>{{ (entity.paymentType == 1) ? 'Przelew' : ((entity.paymentType == 2)? 'PayU' : 'Brak')}}</td>
                     <td>{% if entity.datePayment %}{{ entity.datePayment|date('d-m-Y') }}{% endif %}</td>
                     <td>{% if entity.dateOrder %}{{ entity.dateOrder|date('d-m-Y') }}{% endif %}</td>
                     <td>{{ entity.orderId }}</td>

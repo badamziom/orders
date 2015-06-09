@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Post {
 
+    const TRANSFER_PAYMENT = 1;
+    const PAYU_PAYMENT = 2;
+
     /**
      * @var integer
      *
@@ -34,6 +37,13 @@ class Post {
      * @ORM\Column(name="item", type="string", length=255)
      */
     private $item;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="payment_type", type="integer")
+     */
+    private $payment_type;
 
     /**
      * @var boolean
@@ -336,6 +346,27 @@ class Post {
      */
     public function getCommission() {
         return $this->commission;
+    }
+
+    /**
+     * Set payment_type
+     *
+     * @param integer $payment_type
+     * @return Post
+     */
+    public function setPaymentType($payment_type) {
+        $this->payment_type = $payment_type;
+
+        return $this;
+    }
+
+    /**
+     * Get payment_type
+     *
+     * @return integer
+     */
+    public function getPaymentType() {
+        return $this->payment_type;
     }
 
 }

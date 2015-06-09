@@ -5,6 +5,7 @@ namespace Wojtek\OrderBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Wojtek\OrderBundle\Entity\Post;
 
 class PostType extends AbstractType {
 
@@ -16,6 +17,12 @@ class PostType extends AbstractType {
         $builder
                 ->add('userLogin')
                 ->add('item')
+                ->add('payment_type', 'choice', array(
+                    'choices' => array(
+                        Post::TRANSFER_PAYMENT => 'Przelew',
+                        Post::PAYU_PAYMENT => 'PayU'
+                    )
+                ))
                 ->add('userPaid', 'checkbox', array(
                     'required' => false,
                 ))
